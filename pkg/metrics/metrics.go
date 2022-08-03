@@ -37,6 +37,14 @@ var MessageSendDuration = prometheus.NewSummaryVec(
 	[]string{"cluster", "topic"},
 )
 
+var TotalMessageRead = prometheus.NewCounterVec(
+	prometheus.CounterOpts{
+		Name: "kafka_monitoring_total_messages_read",
+		Help: "Number of messages read for kafka consumer",
+	},
+	[]string{"cluster", "topic"},
+)
+
 func InitMetrics(cfg *config.Config) {
 	for _, cluster := range cfg.Kafka {
 		prometheus.Register(TotalMessageSend.WithLabelValues(cluster.BootstrapServer, cluster.Topic))
